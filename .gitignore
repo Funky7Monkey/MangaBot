@@ -1,0 +1,5 @@
+config.ini
+
+# composer
+/vendor
+composer.lock
