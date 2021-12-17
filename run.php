@@ -21,6 +21,20 @@ $discord = new Discord([
 
 ]);
 
+function buildEmbed($manga, $discord) {
+    $tags = implode(", ", $manga->tags);
+    $embed = new Embed($discord);
+    $embed->setTitle($manga->title)->setType('rich')
+        ->setColor('#000FFF')->setFooter($manga->status)
+        ->setURL($manga->url)->setImage($manga->cover_url)
+        ->addFieldValues('Author', $manga->author, true)
+        ->addFieldValues('Demographic', $manga->demographic, true)
+        ->addFieldValues('Rating', $manga->rating, true)
+        ->addFieldValues('Tags', $tags);
+
+    return $embed;
+}
+
 $discord->on('ready', function ($discord){
     global $defaults;
     echo "Bot is ready" . PHP_EOL;
@@ -44,15 +58,16 @@ $discord->on('ready', function ($discord){
             $id = explode('/', $message->content)[4];
             $manga = new Manga('id', $id);
             
-            $tags = implode(", ", $manga->tags);
-            $embed = new Embed($discord);
-            $embed->setTitle($manga->title)->setType('rich')
-                ->setColor('#000FFF')->setFooter($manga->status)
-                ->setURL($manga->url)->setImage($manga->cover_url)
-                ->addFieldValues('Author', $manga->author, true)
-                ->addFieldValues('Demographic', $manga->demographic, true)
-                ->addFieldValues('Rating', $manga->rating, true)
-                ->addFieldValues('Tags', $tags);
+            $embed = buildEmbed($manga, $discord);
+
+            $message->channel->sendMessage(MessageBuilder::new()
+                ->addEmbed($embed));
+        }
+        if (str_starts_with($message->content, 'https://mangadex.org/chapter/')) {
+            $id = explode('/', $message->content)[4];
+            $manga = new Manga('chapter', $id);
+            
+            $embed = buildEmbed($manga, $discord);
 
             $message->channel->sendMessage(MessageBuilder::new()
                 ->addEmbed($embed));

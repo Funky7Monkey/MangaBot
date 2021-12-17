@@ -20,6 +20,10 @@ class Manga {
                 $out = json_decode(file_get_contents($uri), true)['data'];
                 break;
             case 'chapter':
+                $uri = "https://api.mangadex.org/chapter/${search}";
+                $id = json_decode(file_get_contents($uri), true)['data']['relationships'][1]['id'];
+                $uri = "https://api.mangadex.org/manga/${id}?includes[]=cover_art";
+                $out = json_decode(file_get_contents($uri), true)['data'];
                 break;
             case 'search':
                 $uri = "https://api.mangadex.org/manga?title=${search}&limit=1&contentRating[]=safe&contentRating[]=suggestive&contentRating[]=erotica&contentRating[]=pornographic&includes[]=cover_art&order[relevance]=desc";
