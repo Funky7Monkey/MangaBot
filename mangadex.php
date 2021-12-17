@@ -1,23 +1,5 @@
 <?php
 
-/*
-$cover_part = "https://uploads.mangadex.org/covers/";
-//https://api.mangadex.org/manga?title=komi-san&limit=5&contentRating[]=safe&contentRating[]=suggestive&contentRating[]=erotica&includes[]=cover_art&order[relevance]=desc
-$search = 'yancha';
-$uri = "https://api.mangadex.org/manga?title=${search}&limit=1&contentRating[]=safe&contentRating[]=suggestive&contentRating[]=erotica&contentRating[]=pornographic&includes[]=cover_art&order[relevance]=desc";
-$out = json_decode(file_get_contents($uri), true);
-echo $uri . PHP_EOL;
-$id = $out['data'][0]['id'];
-$title = $out['data'][0]['attributes']['title']['en'];
-$cover_id = $out['data'][0]['relationships'][2]['attributes']['fileName'];
-$cover_url = "https://uploads.mangadex.org/covers/${id}/${cover_id}";
-echo $id . PHP_EOL;
-echo $title . PHP_EOL;
-echo $cover_id . PHP_EOL;
-echo $cover_url . PHP_EOL;
-//var_dump($out);
-*/
-
 class Manga {
     public $id; //str
     public $title; //str
@@ -76,8 +58,5 @@ class Manga {
         $out = json_decode(file_get_contents($uri), true);
     }*/
 }
-/*
-$yancha = new Manga("", "anjou-san");
-$yancha->dump();
-*/
+
 ?>

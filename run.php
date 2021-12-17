@@ -5,7 +5,6 @@ use Discord\Discord;
 use Discord\WebSockets\Intents;
 use Discord\WebSockets\Event;
 use Discord\Builders\MessageBuilder;
-//use mangadex\Manga;
 require_once('mangadex.php');
 
 include __DIR__.'/vendor/autoload.php';
