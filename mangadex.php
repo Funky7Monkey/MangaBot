@@ -10,19 +10,25 @@ class Manga {
     public $rating;//str
     public $links; //array
     public $status; //str
+    public $url; //str
 
-    public function __construct($id="", $search="") {
+    public function __construct($type, $search) {
         //echo "id: " . $id . "search: " . $search . PHP_EOL;
-        if (empty($search)) {
-            $uri = "https://api.mangadex.org/manga/${id}?includes[]=cover_art";
-            $out = json_decode(file_get_contents($uri), true)['data'];
-        } else {
-            $uri = "https://api.mangadex.org/manga?title=${search}&limit=1&contentRating[]=safe&contentRating[]=suggestive&contentRating[]=erotica&contentRating[]=pornographic&includes[]=cover_art&order[relevance]=desc";
-            $out = json_decode(file_get_contents($uri), true)['data'][0];
-            $id = $out['id'];
+        switch ($type) {
+            case 'id':
+                $uri = "https://api.mangadex.org/manga/${search}?includes[]=cover_art";
+                $out = json_decode(file_get_contents($uri), true)['data'];
+                break;
+            case 'chapter':
+                break;
+            case 'search':
+                $uri = "https://api.mangadex.org/manga?title=${search}&limit=1&contentRating[]=safe&contentRating[]=suggestive&contentRating[]=erotica&contentRating[]=pornographic&includes[]=cover_art&order[relevance]=desc";
+                $out = json_decode(file_get_contents($uri), true)['data'][0];
+                $id = $out['id'];
+                break;
         }
 
-        $this->id = $id;
+        $this->id = $out['id'];
         $this->title = $out['attributes']['title']['en'];
         $this->demographic = $out['attributes']['publicationDemographic'];
         $this->rating = $out['attributes']['contentRating'];
@@ -31,6 +37,7 @@ class Manga {
 
         $cover_id = $out['relationships'][2]['attributes']['fileName'];
         $this->cover_url = "https://uploads.mangadex.org/covers/${id}/${cover_id}";
+        $this->url = "https://mangadex.org/title/${id}/" . str_replace(' ', '-', $this->title);
 
         $author_id = $out['relationships'][0]['id'];
         $author_uri = "https://api.mangadex.org/author/${author_id}";
