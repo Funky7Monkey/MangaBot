@@ -24,11 +24,11 @@ class Manga {
             case 'search':
                 $uri = "https://api.mangadex.org/manga?title=${search}&limit=1&contentRating[]=safe&contentRating[]=suggestive&contentRating[]=erotica&contentRating[]=pornographic&includes[]=cover_art&order[relevance]=desc";
                 $out = json_decode(file_get_contents($uri), true)['data'][0];
-                $id = $out['id'];
                 break;
         }
 
-        $this->id = $out['id'];
+        $id = $out['id'];
+        $this->id = $id;
         $this->title = $out['attributes']['title']['en'];
         $this->demographic = $out['attributes']['publicationDemographic'];
         $this->rating = $out['attributes']['contentRating'];
