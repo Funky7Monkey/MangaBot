@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?php
 
 use Discord\Discord;
@@ -22,7 +23,7 @@ $discord = new Discord([
 
 $discord->on('ready', function ($discord){
     global $defaults;
-    echo "Bot is ready", PHP_EOL;
+    echo "Bot is ready" . PHP_EOL;
 
     $discord->guilds->fetch($defaults['guild'])->done(function ($guild) {
         global $defaults;
@@ -34,7 +35,7 @@ $discord->on('ready', function ($discord){
 
     $discord->on(Event::MESSAGE_CREATE, function ($message, $discord) {
         // Handle message
-        echo "{$message->channel_id}: {$message->author->username}: {$message->content}",PHP_EOL;
+        echo "{$message->channel_id}: {$message->author->username}: {$message->content}" . PHP_EOL;
         if ( $message->content == "ping") {
             $message->channel->sendMessage(MessageBuilder::new()
                ->setContent('pong'));
