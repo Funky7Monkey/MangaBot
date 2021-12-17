@@ -5,6 +5,8 @@ use Discord\Discord;
 use Discord\WebSockets\Intents;
 use Discord\WebSockets\Event;
 use Discord\Builders\MessageBuilder;
+//use mangadex\Manga;
+require_once('mangadex.php');
 
 include __DIR__.'/vendor/autoload.php';
 
@@ -39,6 +41,12 @@ $discord->on('ready', function ($discord){
         if ( $message->content == "ping") {
             $message->channel->sendMessage(MessageBuilder::new()
                ->setContent('pong'));
+        }
+        if (str_starts_with($message->content, 'https://mangadex.org/title/')) {
+            $id = explode('/', $message->content)[4];
+            $manga = new Manga($id, '');
+            $message->channel->sendMessage(MessageBuilder::new()
+               ->setContent($manga->title . "\n" . $manga->author));
         }
     });
 
